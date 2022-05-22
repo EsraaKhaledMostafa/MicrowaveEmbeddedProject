@@ -299,3 +299,71 @@ void Case_D()
 	  min2 = Arr[1];
 	  sec1 = Arr[3];
 	  sec2 = Arr[4];
+	  // Check if time entered is valid --> between 1 min & 30 mins
+	 if((min1>'3') || ((min1 == '0')&& (min2<'1')) || ((min1=='3') && ((min2>='1') || (sec1>='1') || (sec2>='1')))  || (sec1>'5'))
+	 {
+			lcd_cmd(lcd_Clear);
+			lcd_write_string("Enter a value");
+			lcd_cmd(first_line2);
+			lcd_write_string("bet 1-30 mins");
+			genericDelay(1000);
+			lcd_cmd(lcd_Clear);
+			Case_D();
+	 }
+
+		while (1)
+		{
+			SW1_clicked = SW1_Pressed();
+			SW2_clicked = SW2_Pressed();
+			SW3_clicked = SW3_Pressed();		
+
+			if ((SW2_clicked != 0x01) && (SW3_clicked == 0x04)) 
+			{	
+				 Start_Cooking(min1, min2, sec1, sec2);
+			}
+			
+			else if((SW1_clicked != 0x10))
+			{
+				 lcd_cmd(lcd_Clear);
+				 Case_D();
+			}
+		}
+	}	
+		
+// main function 
+int main()
+{
+		SystemInit ();
+		PortE_Init ();
+		PortB_Init ();
+		Port_AC_Init();
+		init_lcd();
+	  
+	  
+		lcd_write_string("Please Enter:");
+		lcd_cmd(first_line2);
+		lcd_write_string("A B C or D?");
+		Input = get_Command();
+		lcd_cmd(lcd_Clear);
+	
+		switch(Input)
+		{
+			case('A'):
+				Case_A();
+				break;
+		
+			case('B'):
+				Case_BC();
+				break;
+			
+			case('C'):
+				Case_BC();
+				break;
+
+
+			case ('D'):
+				Case_D();
+				break;
+		}
+}
+
