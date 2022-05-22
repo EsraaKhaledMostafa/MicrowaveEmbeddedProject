@@ -58,3 +58,43 @@ int Start_Cooking(char min1, char min2, char sec1, char sec2)
   	}
 }
 }
+// Finishing cook calls End Cooking function 
+void End_Cooking()       
+{
+			int j;
+			for (j=6;j>0;j--)
+			{
+				GPIO_PORTF_DATA_R = GPIO_PORTF_DATA_R ^(0x0E);          // Flash LEDS 3 times
+				GPIO_PORTD_DATA_R = GPIO_PORTD_DATA_R ^(0x08);          // Buzzer 3 times 
+				genericDelay(500);                                      
+			}
+			lcd_cmd(lcd_Clear);              // clear the LCD
+			GPIO_PORTF_DATA_R &= 0x11;       // turn off all leds
+			main();
+}
+
+// if at any time door is opened or if SW1 is pressed Cooking is Paused by Pause Cooking function 
+void Pause_Cooking (char Pause_min1,char Pause_min2,char Pause_sec1,char Pause_sec2)      // Pause Cooking if door opened or switch 1 is clicked 
+{ 
+	while(1)
+	{
+			SW1_clicked = SW1_Pressed();
+		  SW2_clicked = SW2_Pressed();
+			SW3_clicked = SW3_Pressed();
+		
+		  if ((SW2_clicked != 0x01) && (SW3_clicked == 0x04))     // to resume cooking --> SW2 is Pressed & SW3 is not Pressed (Door is closed) 
+		{              
+			Start_Cooking(Pause_min1, Pause_min2, Pause_sec1, Pause_sec2);      // resume counting down using the paused time 
+		}
+			else if ((SW1_clicked != 0x10))          // SW1 is Pressed 
+		{
+			lcd_cmd(lcd_Clear);      // Clear the LCD 
+		  End_Cooking();           // go to End Cooking 
+		}
+		else                                                // If still in Paused Condition 
+		{
+			GPIO_PORTF_DATA_R = GPIO_PORTF_DATA_R ^(0x0E);   // LEDS Blink 
+			genericDelay(500);
+		}	
+	}	
+}
