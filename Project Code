@@ -296,6 +296,6 @@ void Case_D()
 		lcd_write_string(Arr);
 		
 	  min1 = Arr[0];
-		min2 = Arr[1];
+	  min2 = Arr[1];
 	  sec1 = Arr[3];
-		sec2 = Arr[4];
+	  sec2 = Arr[4];
