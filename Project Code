@@ -1,0 +1,22 @@
+#include "tm4c123gh6pm.h"
+#include "LCDFinal.h"
+#include "STDFinal.h"
+#include "GPIOFinal.h"
+#include "KEYPADFinal.h"
+#include "stdio.h"
+
+// Global variables that are used in more than one function 
+unsigned char SW1_clicked;
+unsigned char SW2_clicked;
+unsigned char SW3_clicked;
+char Pause_min1, Pause_min2, Pause_sec1, Pause_sec2, min1, min2, sec1, sec2;
+char Input;
+char weight;
+char In1, In2, In3, In4;
+char Arr[5];
+
+
+//Prototype for functions 
+void Count_Down(char min1, char min2, char sec1, char sec2);
+int main();
+
