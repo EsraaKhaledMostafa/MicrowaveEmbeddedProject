@@ -19,6 +19,7 @@ char Arr[5];
 //Prototype for functions 
 void Count_Down(char min1, char min2, char sec1, char sec2);
 int main();
+
 char get_Command()   // get command from keypad A or B or C or D 
 {
 	char character; 
@@ -58,6 +59,7 @@ int Start_Cooking(char min1, char min2, char sec1, char sec2)
   	}
 }
 }
+
 // Finishing cook calls End Cooking function 
 void End_Cooking()       
 {
@@ -367,4 +369,3 @@ int main()
 				break;
 		}
 }
-
