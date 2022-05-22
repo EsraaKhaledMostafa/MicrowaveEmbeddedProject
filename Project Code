@@ -19,4 +19,42 @@ char Arr[5];
 //Prototype for functions 
 void Count_Down(char min1, char min2, char sec1, char sec2);
 int main();
+char get_Command()   // get command from keypad A or B or C or D 
+{
+	char character; 
+	character = Keypad_Getkey();
+	return (char) (character);              // function returns character received by keypad
+}
 
+// Switches functions 
+unsigned char SW1_Pressed(void)  
+{
+	return GPIO_PORTF_DATA_R & 0x10;                    // SW1 is PF4
+}
+
+unsigned char SW2_Pressed(void)
+{
+		return GPIO_PORTF_DATA_R & 0x01;                 // SW2 is PF0
+}
+
+unsigned char SW3_Pressed(void)
+{
+		return GPIO_PORTD_DATA_R & 0x04;                 // SW3 is PD2 and buzzer is also connected to PD3  
+}
+
+// Start Cooking function shows if i am ready to cook and calls cunt down function 
+int Start_Cooking(char min1, char min2, char sec1, char sec2)        
+{
+	while(1)
+	{
+		SW1_clicked = SW1_Pressed();
+		SW2_clicked = SW2_Pressed();
+		SW3_clicked = SW3_Pressed();
+		
+		if ((SW2_clicked != 0x01) && (SW3_clicked == 0x04) )     // SW2 is pressed to start cooking --> check SW3 is not pressed --> Door Closed 
+		{	
+		GPIO_PORTF_DATA_R |= 0x0E;          // Turn on array of LEDS 
+		Count_Down(min1, min2,sec1,sec2);   // take time wanted and call count down fumction to start cooking 
+  	}
+}
+}
