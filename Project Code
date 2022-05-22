@@ -205,4 +205,53 @@ char weight_time()
 				}
 		}
 }
+
+// case B & C 
+void Case_BC()
+{
+		int i;
+		char NotValid [] = {'A','B','C','D','*','0','#'};
+		char wrong_found = 0;
+		
+		if(Input == 'B')
+		{
+			lcd_write_string("Beef weight?");
+			weight = get_Command();
+		}
+		
+		else 
+		{
+			lcd_write_string("Chicken weight?");
+			weight = get_Command();
+		}
 			
+		 // Checking for Error 
+		for ( i = 0; i < 7; i++)
+		{
+			if(NotValid[i] == weight)
+			{
+				wrong_found = 1;
+				break;
+			}
+		}			
+	
+		while(1)
+		{
+			if(wrong_found)
+			{
+					lcd_cmd(lcd_Clear);
+					lcd_write_string("Err");
+					genericDelay(2000);
+					lcd_cmd(lcd_Clear);
+					Case_BC();
+			}
+			
+			else if(wrong_found == 0)
+			{
+				lcd_cmd(lcd_Clear);
+				lcd_write(weight);
+				genericDelay(2000);
+				weight_time();
+			}
+		}			
+}			
