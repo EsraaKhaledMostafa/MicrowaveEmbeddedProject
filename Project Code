@@ -299,6 +299,7 @@ void Case_D()
 	  min2 = Arr[1];
 	  sec1 = Arr[3];
 	  sec2 = Arr[4];
+	  
 	  // Check if time entered is valid --> between 1 min & 30 mins
 	 if((min1>'3') || ((min1 == '0')&& (min2<'1')) || ((min1=='3') && ((min2>='1') || (sec1>='1') || (sec2>='1')))  || (sec1>'5'))
 	 {
