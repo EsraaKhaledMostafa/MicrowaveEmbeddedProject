@@ -55,10 +55,9 @@ int Start_Cooking(char min1, char min2, char sec1, char sec2)
 		{	
 		GPIO_PORTF_DATA_R |= 0x0E;          // Turn on array of LEDS 
 		Count_Down(min1, min2,sec1,sec2);   // take time wanted and call count down fumction to start cooking 
-		}
   	}
 }
-
+}
 // Finishing cook calls End Cooking function 
 void End_Cooking()       
 {
@@ -99,3 +98,62 @@ void Pause_Cooking (char Pause_min1,char Pause_min2,char Pause_sec1,char Pause_s
 		}	
 	}	
 }
+
+// Count down function that is called if Start Cooking is called 
+void Count_Down(char min1, char min2, char sec1, char sec2)             //min1 min2 : sec1 sec2
+{
+    while(1)
+    {
+					SW1_clicked = SW1_Pressed();
+		      SW2_clicked = SW2_Pressed();
+					SW3_clicked = SW3_Pressed();
+			
+          sec2 = sec2 - 1;
+          genericDelay(1000);
+          lcd_cmd(lcd_Clear);
+        
+      if (sec2 == '/')                // '/' because it is the ASCII before '0' --> LCD displays ASCII characters 
+      {
+					sec2= '9';
+					sec1 = sec1-1;    
+      }
+            
+      if (sec1 == '/' )
+      {
+           sec1= '5';
+					 min2 = min2-1;    
+      }
+            if (min2 == '/')
+      {
+           min2= '9';
+           min1 = min1-1;    
+      }
+            if (min1 == '/')
+      {
+           min1= '5';    
+      }
+            
+          lcd_write(min1);            // Display time after decrementing it 
+          lcd_write(min2);
+					lcd_write(':');
+          lcd_cmd(lcd_Cursor_Right);
+          lcd_write(sec1);
+          lcd_write(sec2);
+			   
+					if( sec1 == '0' & min1 == '0'  & sec2 == '0' & min2 == '0')    // if time ends go to End Cooking 
+					{
+								End_Cooking();
+                break;
+					}
+					else if((SW1_clicked != 0x10) || (SW3_clicked != 0x04))        // if time Paused or Door got opened go to Pause Cooking 
+					{
+							Pause_min1 = min1;
+							Pause_min2 = min2;
+							Pause_sec1 = sec1;
+							Pause_sec2 = sec2;
+						
+							Pause_Cooking(Pause_min1, Pause_min2, Pause_sec1, Pause_sec2); 
+					}
+				}
+}
+			
