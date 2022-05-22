@@ -55,9 +55,10 @@ int Start_Cooking(char min1, char min2, char sec1, char sec2)
 		{	
 		GPIO_PORTF_DATA_R |= 0x0E;          // Turn on array of LEDS 
 		Count_Down(min1, min2,sec1,sec2);   // take time wanted and call count down fumction to start cooking 
+		}
   	}
 }
-}
+
 // Finishing cook calls End Cooking function 
 void End_Cooking()       
 {
