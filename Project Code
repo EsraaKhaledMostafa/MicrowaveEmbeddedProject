@@ -156,4 +156,53 @@ void Count_Down(char min1, char min2, char sec1, char sec2)             //min1 m
 					}
 				}
 }
+// Case A	
+void Case_A()
+{
+		lcd_write_string("Popcorn");
+		lcd_cmd(first_line2);
+		lcd_write_string("01:00");	
+		Start_Cooking('0','1','0','0');                                    
+}
+
+// converting weight input in case B or C into time 
+char weight_time()
+{
+	char m1,m2,s1,s2,min,sec;
+	int rate, time,i;
+	
+				if (Input == 'B') rate = 30;
+				else rate = 12;
+				min = 0;	
+				time = (weight-48)*rate;	
+				while(time >= 60)
+				{
+						time = time - 60;
+						min = min + 1;
+				}
+					sec = time;
+					
+					m1 = '0';                    // largest number entered = 9*0.5 = 4.5 
+					m2 = min + 48;
+					s2 = (sec % 10) + 48;        // takes second digit 
+					s1 = (sec / 10) + 48;
+					
+					Arr[0] = m1;
+					Arr[1] = m2;
+					Arr[2] = ':';
+					Arr[3] = s1;
+					Arr[4] = s2;
+					lcd_cmd(lcd_Clear);
+					lcd_write_string(Arr);
+				
+	while(1)
+		{
+			SW2_clicked = SW2_Pressed();
+		
+			if ((SW2_clicked != 0x01))
+				{					
+					Start_Cooking(m1,m2,s1,s2);
+				}
+		}
+}
 			
